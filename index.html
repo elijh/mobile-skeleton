@@ -1,0 +1,70 @@
+<html> 
+  <head> 
+  <title>Skeleton App</title> 
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="lib/jquery.mobile-1.0.1.css" />
+  <script src="lib/jquery-1.7.1.js"></script>
+  <script src="lib/jquery.mobile-1.0.1.js"></script>
+  <script src="lib/persistence.js"></script>
+  <script src="lib/persistence.store.sql.js"></script>
+  <script src="lib/persistence.store.websql.js"></script>
+  <script src="lib/persistence.extends.js"></script>
+  <script src="lib/skeleton_helper.js"></script>
+  <script src="data.js"></script>
+  <script src="database.js"></script>
+  <script src="app.js"></script>
+</head>
+<body>
+
+<script>
+$('#home').live('pageinit', function() {
+
+  initializeApp("Skeleton App");
+  // resetDB(); uncomment to reset the local storage
+  defineDatabase({seed: 'data.json'}, function() {
+    Fruit = persistence.define('fruits', {
+      name: "TEXT",
+      color: "TEXT"
+    });
+  });
+
+});
+
+$('#listing').live('pagebeforeshow', function() {
+
+  // populate fruit list
+  ul = $(".fruit_list");
+  ul.empty(); // clear list
+  Fruit.findAll({}, function(results) {
+    results.forEach(function(fruit) {
+      ul.append("<li><a href=''>" + fruit.name + "</a></li>");
+    });
+    ul.listview('refresh');
+  });
+});
+
+</script>
+
+<div data-role="page" id="home">
+  <div data-role="header">
+    <h1>Skeleton App</h1>
+  </div>
+
+  <div data-role="content">  
+    <a href="#listing" data-role="button">Show listing</a></p>  
+  </div>
+</div>
+
+<div data-role="page" id="listing">
+  <div data-role="header">
+    <a href="#home" data-icon="home">Home</a>
+    <h1>Listing</h1>
+  </div>
+
+  <div data-role="content">
+    <ul data-role="listview" class="fruit_list"></ul>
+  </div>
+</div>
+
+</body>
+</html>
