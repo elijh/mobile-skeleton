@@ -10,40 +10,10 @@
   <script src="lib/persistence.store.websql.js"></script>
   <script src="lib/persistence.extends.js"></script>
   <script src="lib/skeleton_helper.js"></script>
-  <script src="data.js"></script>
-  <script src="database.js"></script>
   <script src="app.js"></script>
+  <script src="lib/skeleton_bootstrap.js"></script>
 </head>
 <body>
-
-<script>
-$('#home').live('pageinit', function() {
-
-  initializeApp("Skeleton App");
-  // resetDB(); uncomment to reset the local storage
-  defineDatabase({seed: 'data.json'}, function() {
-    Fruit = persistence.define('fruits', {
-      name: "TEXT",
-      color: "TEXT"
-    });
-  });
-
-});
-
-$('#listing').live('pagebeforeshow', function() {
-
-  // populate fruit list
-  ul = $(".fruit_list");
-  ul.empty(); // clear list
-  Fruit.findAll({}, function(results) {
-    results.forEach(function(fruit) {
-      ul.append("<li><a href=''>" + fruit.name + "</a></li>");
-    });
-    ul.listview('refresh');
-  });
-});
-
-</script>
 
 <div data-role="page" id="home">
   <div data-role="header">
@@ -63,6 +33,17 @@ $('#listing').live('pagebeforeshow', function() {
 
   <div data-role="content">
     <ul data-role="listview" class="fruit_list"></ul>
+  </div>
+</div>
+
+<div data-role="page" id="show_fruit">
+  <div data-role="header">
+    <a href="#listing" data-icon="arrow-l">Back</a>
+    <h1 class="fruit_title"></h1>
+  </div>
+
+  <div data-role="content">
+    The color of a <span class="fruit_name"></span> is <b><span class="fruit_color"></span></b>.
   </div>
 </div>
 
