@@ -1,6 +1,6 @@
 <html> 
   <head> 
-  <title>Skeleton App</title> 
+  <title></title> 
   <meta name="viewport" content="width=device-width, initial-scale=1"> 
   <link rel="stylesheet" href="lib/jquery.mobile-1.0.1.css" />
   <script src="lib/jquery-1.7.1.js"></script>
@@ -10,38 +10,50 @@
   <script src="lib/persistence.store.websql.js"></script>
   <script src="lib/persistence.extends.js"></script>
   <script src="lib/skeleton_helper.js"></script>
+  <script src="seed.js"></script>
   <script src="app.js"></script>
-  <script src="lib/skeleton_bootstrap.js"></script>
+  <script>
+     // setup is defined in app.js
+     setup({name: "Skeleton App", seed: data, mode: "development"});
+  </script>
 </head>
 <body>
 
-<div data-role="page" id="home">
+<div data-role="page" id="home_page">
   <div data-role="header">
-    <h1>Skeleton App</h1>
+    <h1 class="app_title"></h1>
   </div>
-
   <div data-role="content">  
-    <a href="#listing" data-role="button">Show listing</a></p>  
+    <a class="list_fruit_button" data-role="button">List Fruit</a></p>  
+    <a class="list_colors_button" data-role="button">List Colors</a></p>  
   </div>
 </div>
 
-<div data-role="page" id="listing">
+<div data-role="page" id="list_fruit_page">
   <div data-role="header">
-    <a href="#home" data-icon="home">Home</a>
-    <h1>Listing</h1>
+    <a href="#home_page" data-direction="reverse" data-icon="home">Home</a>
+    <h1 class="fruit_list_title">Fruit</h1>
   </div>
-
   <div data-role="content">
     <ul data-role="listview" class="fruit_list"></ul>
   </div>
 </div>
 
-<div data-role="page" id="show_fruit">
+<div data-role="page" id="list_colors_page">
   <div data-role="header">
-    <a href="#listing" data-icon="arrow-l">Back</a>
+    <a href="#home_page" data-direction="reverse" data-icon="home">Home</a>
+    <h1>Colors</h1>
+  </div>
+  <div data-role="content">
+    <ul data-role="listview" class="color_list"></ul>
+  </div>
+</div>
+
+<div data-role="page" id="show_fruit_page">
+  <div data-role="header" data-add-back-btn="true">
+    <a data-icon="arrow-l" data-rel="back">Back</a>
     <h1 class="fruit_title"></h1>
   </div>
-
   <div data-role="content">
     The color of a <span class="fruit_name"></span> is <b><span class="fruit_color"></span></b>.
   </div>

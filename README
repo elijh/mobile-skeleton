@@ -1,9 +1,25 @@
-A skeleton smartphone app using jquery mobile and peristence.
+A skeleton smartphone app using jquery mobile and persistence.
 
-To try it locally in the browser, run this in the same folder as index.html:
+To try it locally in the browser, open index.html in Chrome.
 
-   python -m SimpleHTTPServer 8000
+Chrome is the browser of choice for HTML-based smartphone apps, because
+it is most similar to the webkit found in Android and iOS. 
 
-Then browse to http://localhost:8000
+This sample app is designed to work without the need to run a local
+webserver. Because Chrome does not allow javascript to load local files, 
+all the content and script used for the application must be specified in
+the index.html file. This makes the design of the app more awkward, but
+allows people to test an app without running a local webserver.
 
+To customize this app, edit these files:
+
+seed.js
+  This file should contain a JSON dump of the data you want to 
+  seed the database with. It should set the variable 'seed'.
+
+app.js
+  This file contains all your application code.
+
+index.html
+  This file contains your HTML.
 

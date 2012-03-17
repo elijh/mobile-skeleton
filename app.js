@@ -2,20 +2,15 @@
 // SETUP and CONFIGURATION
 //
 
-function setup() {
-    initializeApp("Skeleton App");
-
-    // 
-    // setup database
-    //
-
-    defineDatabase({seed:'data.json'}, function() {
+function setup(options) {
+    initializeApp(options);
+    
+    defineDatabase(options, function() {
         Fruit = defineModel({
             table: 'fruits',
             fields: {
                 name: "TEXT",
-                color: "TEXT",
-                id: "INT"
+                color: "TEXT"
             }
         });     
     });
@@ -25,28 +20,56 @@ function setup() {
 // EVENTS
 //
 
-$('#home').live('pageinit', function() {
-    // resetDB();
+$('#home_page').live('pageinit', function() {
+    // app initialization can go here.
 });
 
-$('#listing').live('pagebeforeshow', function() {
+//
+// FRUIT LIST
+//
 
-    // populate fruit list
-    ul = $(".fruit_list");
-    ul.empty(); // clear list
-    Fruit.findAll({}, function(rows) {
-    rows.forEach(function(record) {
-        var li = "<li><a data-id='{id}'>{name}</a></li>".interpolate(record);
-        ul.append(li);
+$('.list_fruit_button').live('click', function() {
+    Fruit.findAll({order:"name"}, function(rows) {
+        showFruitList(rows);
     });
-    ul.listview('refresh');
-  });
 });
+
+//
+// FRUIT LIST CLICK
+//
 
 $('.fruit_list a').live('click', function() {
+    // get the data-id of the link that was clicked
     var fruit_id = $(this).attr('data-id');
+
+    // find the record and load its details page
     Fruit.findByID(fruit_id, function(record) {
         showFruit(record);
+    });
+});
+
+//
+// COLOR LIST
+//
+
+$('.list_colors_button').live('click', function() {
+    var sql = 'SELECT *, count(*) as count FROM fruits GROUP BY color ORDER BY color';
+    Fruit.findBySql(sql, function(rows) {
+        showColorsList(rows);
+    });
+});
+
+//
+// COLOR LIST CLICK
+//
+
+$('.color_list a').live('click', function() {
+    // get the data-id of the link that was clicked
+    var color = $(this).attr('data-id');
+
+    // find the record and load its details page
+    Fruit.findAll({where:["color","=",color]}, function(rows) {
+        showFruitList(rows, color + " Fruit");
     });
 });
 
@@ -54,9 +77,59 @@ $('.fruit_list a').live('click', function() {
 // VIEWS
 //
 
+//
+// shows a list of fruit records.
+//
+// arguments:
+//   records -- a list of fruit records (required).
+//
+function showFruitList(records, title) {
+    // update the list with records
+    ul = $(".fruit_list");
+    ul.empty(); // clear list
+    records.forEach(function(record) {
+        ul.append(buildListItem({id:record.id, label:record.name}));
+    });
+
+    if (title) {
+        $('.fruit_list_title').html(title);
+    } else {
+        $('.fruit_list_title').html("Fruit");
+    }
+
+    // jump to the page
+    $.mobile.changePage('#list_fruit_page');
+
+    // refresh the list view
+    ul.listview('refresh');
+}
+
+//
+// shows the list of colors
+//
+function showColorsList(records) {
+    ul = $(".color_list");
+    ul.empty(); // clear list
+    records.forEach(function(record) {
+        ul.append(buildListItem({id:record.color, label:record.color, count:record.count}));
+    });
+    $.mobile.changePage('#list_colors_page');
+    ul.listview('refresh');
+}
+
+
+//
+// shows details for a particular fruit.
+//
+// arguments:
+//   fruit -- a single fruit record (required).
+//
 function showFruit(fruit) {
-    $('.fruit_title').html(fruit.name);
+    // change the text on the show_fruit page
+    $('.fruit_title').html("Fruit: " + fruit.name);
     $('.fruit_name').html(fruit.name);
     $('.fruit_color').html(fruit.color);
-    $.mobile.changePage('#show_fruit');
+
+    // switch to the show_fruit page.
+    $.mobile.changePage('#show_fruit_page');
 }

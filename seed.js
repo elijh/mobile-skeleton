@@ -19,6 +19,16 @@ var data = {
       "id": 4,
       "name": "Lychee",
       "color": "Pink"
+    },
+    {
+      "id": 5,
+      "name": "Tomato",
+      "color": "Red"
+    },
+    {
+      "id": 6,
+      "name": "Grape",
+      "color": "Green"
     }
   ]
 }
