@@ -40,10 +40,10 @@ $('.list_fruit_button').live('click', function() {
 
 $('.fruit_list a').live('click', function() {
     // get the data-id of the link that was clicked
-    var fruit_id = $(this).attr('data-id');
+    var id = $(this).attr('data-id');
 
     // find the record and load its details page
-    Fruit.findByID(fruit_id, function(record) {
+    Fruit.findByID(id, function(record) {
         showFruit(record);
     });
 });
@@ -85,10 +85,11 @@ $('.color_list a').live('click', function() {
 //
 function showFruitList(records, title) {
     // update the list with records
-    ul = $(".fruit_list");
+    var ul = $(".fruit_list");
     ul.empty(); // clear list
     records.forEach(function(record) {
-        ul.append(buildListItem({id:record.id, label:record.name}));
+        var li = buildListItem({id:record.id, label:record.name});
+        ul.append(li);
     });
 
     if (title) {
@@ -108,10 +109,11 @@ function showFruitList(records, title) {
 // shows the list of colors
 //
 function showColorsList(records) {
-    ul = $(".color_list");
+    var ul = $(".color_list");
     ul.empty(); // clear list
     records.forEach(function(record) {
-        ul.append(buildListItem({id:record.color, label:record.color, count:record.count}));
+        var li = buildListItem({id:record.color, label:record.color, count:record.count});
+        ul.append(li);
     });
     $.mobile.changePage('#list_colors_page');
     ul.listview('refresh');
